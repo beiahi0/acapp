@@ -9,11 +9,26 @@
     <script src="https://cdn.acwing.com/static/jquery/js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/game.css' %}">
     <script src="{% static 'js/dist/game.js' %}"></script>
+
     <title>Document</title>
 </head>
 
 <body style="margin: 0;">
     <div id="ac_game12345689"></div>
+    <!-- <div class="ac-game-menu">
+        <div class="ac-game-menu-field">
+            <div class="ac-game-menu-field-item ac-game-menu-field-single">
+                单人模式
+            </div>
+            <div class="ac-game-menu-field-item ac-game-menu-field-multi">
+                多人模式
+            </div>
+            <div class="ac-game-menu-field-item ac-game-menu-field-settings">
+                设置
+            </div>
+
+        </div>
+    </div> -->
     <script>
         $(document).ready(function () {
             let ac_game = new AcGame("ac_game12345689");
@@ -21,5 +36,6 @@
     </script>
 
 </body>
+
 
 </html>
