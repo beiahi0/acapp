@@ -23,6 +23,7 @@ class AcGameMenu {
         this.$multi_mode = this.$menu.find(".ac-game-menu-field-multi-mode");
         this.$settings = this.$menu.find(".ac-game-menu-field-settings");
 
+
         this.start();
 
     }
