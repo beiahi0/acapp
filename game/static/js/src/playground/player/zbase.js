@@ -17,6 +17,7 @@ class Player extends AcGameObject {
         this.is_me = is_me;
         this.eps = 0.1;
         this.cur_skill = null;
+        this.spend_time = 0;
 
         this.friction = 0.9; // 被击中后退速度会衰减
 
@@ -28,6 +29,7 @@ class Player extends AcGameObject {
             // 敌人
             let tx = Math.random() * this.playground.width;
             let ty = Math.random() * this.playground.height;
+
             this.move_to(tx, ty);
             // console.log(tx, ty);
         }
@@ -83,8 +85,20 @@ class Player extends AcGameObject {
     }
 
     is_attacked(angle, damage) {
+        for (let i = 0; i < 20 + Math.random() * 5; i++) {
+            let x = this.x, y = this.y;
+            let radius = this.radius * Math.random() * 0.1;
+            let angle = Math.PI * 2 * Math.random();
+            let vx = Math.cos(angle), vy = Math.sin(angle);
+            let color = this.color;
+            let speed = this.speed * 10;
+            let move_length = this.radius * Math.random() * 5;
+
+            new Particle(this.playground, x, y, radius, vx, vy, color, speed, move_length);
+        }
         this.radius -= damage;
-        if (this.radius < 10) {
+        if (this.radius < this.eps) {
+            this.destroy();
             return false;
         }
         this.damage_x = Math.cos(angle);
@@ -94,6 +108,17 @@ class Player extends AcGameObject {
     }
 
     update() {
+
+        this.spend_time += this.timedelta / 1000;
+        if (!this.is_me && this.spend_time > 4 && Math.random() < 1 / 300.0) {
+
+            let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
+            let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
+            let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
+            console.log(tx, ty);
+            this.shoot_fireball(tx, ty);
+        }
+
         if (this.damage_speed > 10) {
             this.vx = this.vy = 0;
             this.move_length = 0;
@@ -122,10 +147,19 @@ class Player extends AcGameObject {
     }
 
     render() {
+        if (this.radius < this.eps)
+            return false;
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
+    }
 
+    on_destroy() {
+        for (let i = 0; i < this.playground.players.length; i++) {
+            if (this.playground.players[i] === this) {
+                this.playground.players.splice(i, 1);
+            }
+        }
     }
 }

@@ -23,6 +23,7 @@ class FireBall extends AcGameObject {
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
+
     }
 
 
@@ -35,6 +36,7 @@ class FireBall extends AcGameObject {
         let moved = Math.min(this.move_lengh, this.speed * this.timedelta / 1000);
 
 
+
         this.x += this.vx * moved;
         this.y += this.vy * moved;
         this.move_lengh -= moved;
@@ -45,18 +47,17 @@ class FireBall extends AcGameObject {
                 this.attack(player);
             }
         }
-
         this.render();
     }
 
     get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2, dy = y1 - y2;
-        return Math.sqrt(dx * dx + dy* dy);
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
-    is_collision(player) {
-        let distance = this.get_dist(this.x, this.y, player.x, player.y);
-        if (distance < this.radius + player.radius) {
+    is_collision(obj) {
+        let distance = this.get_dist(this.x, this.y, obj.x, obj.y);
+        if (distance < this.radius + obj.radius) {
             return true;
         }
         return false;

@@ -2,9 +2,8 @@ let Ac_Game_Objects = [];
 
 class AcGameObject {
     constructor() {
-        Ac_Game_Objects.push(this);
-        console.log(this);
         this.has_called_start = false; // 是否执行过 start 函数
+        Ac_Game_Objects.push(this);
         this.timedelta = 0; //  当前帧距离上一帧的时间间隔
     }
 
